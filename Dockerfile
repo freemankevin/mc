@@ -8,7 +8,7 @@ RUN apk add --no-cache \
     gawk \
     iputils \
     jq \
-    nc \
+    netcat-openbsd \
     coreutils \
     bind-tools \
     && curl -sSL https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/bin/mc \
