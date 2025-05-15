@@ -5,14 +5,12 @@ RUN dnf install -y \
     curl \
     bash \
     sed \
-    awk \
+    gawk \
     iputils \
     jq \
-    iputils \
-    netcat-openbsd \
+    nc \
     coreutils \
-    bind-tools \
-    busybox-extras \
+    bind-utils \
     && dnf clean all
 
 # 添加入口脚本  
