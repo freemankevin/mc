@@ -1,7 +1,5 @@
 FROM alpine:latest
 
-ARCH=amd64
-
 # 安装工具
 RUN apk add --no-cache \
     curl \
