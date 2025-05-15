@@ -1,0 +1,48 @@
+services:
+  minio:
+    image: "${MINIO_IMAGE}"
+    deploy:
+      resources:
+        limits:
+          memory: 4096M
+    networks:
+      - middleware 
+    container_name: minio
+    ports:
+      - "${MINIO_PORT}:9000"
+      - "${MINIO_CONSOLE_PORT}:9001"
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/minio/data:/data
+    restart: always
+
+  minio-mc:
+    image: minio/mc:latest
+    container_name: minio-mc
+    networks:
+      - middleware 
+    environment:
+      SITE1_URL: "${SITE1_URL}"
+      SITE2_URL: "${SITE2_URL}"
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
+    volumes:
+      - ./site-replication.sh:/site-replication.sh
+    entrypoint: ["/bin/bash", "/site-replication.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", "mc --version >/dev/null 2>&1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+    restart: always
