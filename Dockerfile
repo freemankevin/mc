@@ -1,7 +1,7 @@
-FROM minio/mc:latest
+FROM alpine:latest
 
-# 安装常用工具
-RUN dnf install -y \
+# 安装常用工具 和 MinIO 客户端
+RUN apk add --no-cache \
     curl \
     bash \
     sed \
@@ -10,8 +10,9 @@ RUN dnf install -y \
     jq \
     nc \
     coreutils \
-    bind-utils \
-    && dnf clean all
+    bind-tools \
+    && curl -sSL https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/bin/mc \
+    && chmod +x /usr/bin/mc
 
 # 添加入口脚本  
 COPY entrypoint.sh /entrypoint.sh
