@@ -1,7 +1,7 @@
 FROM minio/mc:latest
 
 # 安装常用工具
-RUN apk add --no-cache \
+RUN dnf install -y \
     curl \
     bash \
     sed \
@@ -12,9 +12,10 @@ RUN apk add --no-cache \
     netcat-openbsd \
     coreutils \
     bind-tools \
-    busybox-extras
+    busybox-extras \
+    && dnf clean all
 
-# 添加入口脚本
+# 添加入口脚本  
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
