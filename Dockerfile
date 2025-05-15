@@ -10,7 +10,8 @@ RUN apk add --no-cache \
     jq \
     netcat-openbsd \
     coreutils \
-    bind-tools
+    bind-tools \
+    tzdata
 
 # 安装 mc 客户端
 RUN case $(uname -m) in \
@@ -21,6 +22,9 @@ RUN case $(uname -m) in \
     curl -sSL https://dl.min.io/client/mc/release/linux-${ARCH}/mc -o /usr/bin/mc && \
     chmod +x /usr/bin/mc
 
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+    
 # 添加入口脚本  
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
