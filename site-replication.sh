@@ -49,12 +49,10 @@ log() {
 # 简洁标题样式（改为 === 标题 === 形式）
 header() {
   if [ "$2" = "MinIO 站点复制初始化" ]; then
-    printf "\n   \033[1m${MAGENTA}%s %s${RESET}\n" "$1" "$2"
-    printf "${CYAN}%s${RESET}\n" "$(for i in $(seq 1 50); do printf "═"; done)"
+    printf "\n\n${MAGENTA}███╗   ███╗██╗███╗   ██╗██╗ ██████╗     ███╗   ███╗ ██████╗\n████╗ ████║██║████╗  ██║██║██╔═══██╗    ████╗ ████║██╔════╝\n██╔████╔██║██║██╔██╗ ██║██║██║   ██║    ██╔████╔██║██║     \n██║╚██╔╝██║██║██║╚██╗██║██║██║   ██║    ██║╚██╔╝██║██║     \n██║ ╚═╝ ██║██║██║ ╚████║██║╚██████╔╝    ██║ ╚═╝ ██║╚██████╗\n╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝ ╚═════╝     ╚═╝     ╚═╝ ╚═════╝\n\n>> %s %s${RESET}\n" "$1" "$2"
     printf "\n"
   else
-    printf "\n${CYAN}[%d] %s %s${RESET}\n" "$task_number" "$1" "$2"
-    printf "${CYAN}%s${RESET}\n" "$(for i in $(seq 1 50); do printf "═"; done)"
+    printf "\n${CYAN}[ TASK %d ] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n>> %s %s${RESET}\n" "$task_number" "$1" "$2"
     printf "\n"
     task_number=$((task_number + 1))
   fi
@@ -84,12 +82,10 @@ wait_for_services() {
       if /usr/bin/mc alias set "$alias" "$url" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" >/dev/null 2>&1 && \
          /usr/bin/mc ls "$alias" >/dev/null 2>&1; then
         log SUCCESS "服务已就绪: $url"
-        if /usr/bin/mc alias remove "$alias" >/dev/null 2>&1; then
-          log INFO "已移除临时别名: $alias"
-        else
-          log WARN "移除临时别名 $alias 失败"
-        fi
         all_ready=1
+        if [ "$site" = "SITE1" ]; then
+          printf "${CYAN}%s${RESET}\n" "$(for i in $(seq 1 61); do printf "-"; done)"
+        fi
         break
       fi
 

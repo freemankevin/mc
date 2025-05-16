@@ -46,3 +46,7 @@ services:
       start_period: 10s
       retries: 3
     restart: always
+
+networks:
+  middleware:
+    driver: bridge
