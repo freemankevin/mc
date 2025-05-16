@@ -1,4 +1,4 @@
-# MinIO 站点复制管理工具
+# MinIO 站点复制初始化工具
 
 [![Docker Publish](https://github.com/freemankevin/mc/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/your-username/mc/actions/workflows/docker-publish.yml)
 
